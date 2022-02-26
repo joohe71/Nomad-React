@@ -1,0 +1,80 @@
+<!-- - 더 편리하고, 좀 더 설계된 방식
+React JS : 아주 interactive한 UI를 만들어주는 library
+리액트의 좋은점은 UI에서 바뀐 부분만 업데이트 해줌
+react-dom : 모든 React element들을 HTML body에 둘 수 있도록 해주는 library or package -->
+<!-- render : 사용자에게 보여준다는 의미 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<!-- React 사용하기 -->
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.querySelector('#root')
+
+    // ---------------------------------------------
+    // const span = React.createElement('h3', {
+    //     onMouseEnter: () => console.log('mouse enter')
+    // }
+    // // { id: "sexy-span", style: {color: "red"}} <- 2번째 인자는 property
+    // ,"Hello, I'm a span");
+    // const btn = React.createElement('button',{
+    //     onClick: () => console.log("I'm clicked")
+    // },'Click me')
+    // const container = React.createElement('div',null,[span,btn])
+    // ReactDOM.render(container,root)
+
+    // ---------------------------------------------
+    // JSX 방식
+    // babel의 역할: 브라우저에서는 JSX 는 invalid하다고 생각하기 때문에 위의 코드 형태로 변환해주는 작업을 한다.
+
+
+    const render = () => ReactDOM.render(<Container />, root)
+    // let counter = 0;
+    // const countUp = () => {
+    //     counter += 1;
+    //     render()  /*( **중요** ) => 데이터가 바뀔 때마다 리렌더링 필요!*/ 
+    // }
+
+    const Container = () => {
+        
+        // React.useState(초기값, 리렌더링 해주는 함수)를 이용하여 리렌더링을 간단하게 구현할 수 있다. => State가 바뀌면 리렌더링이 발생!
+
+        let [counter, setCounter] = React.useState(0)
+        
+        const onClick = () => setCounter(counter+1) 
+
+        const Title = () => <h3 id='title' onMouseEnter={
+            () => console.log('mouse enter')
+        }>Total counts: {counter}</h3>
+
+        const Button = () => <button 
+                style={{backgroundColor: 'yellow'}} onClick={() => {
+                    console.log("I'm clicked")
+                    onClick()
+                    // countUp()
+                }}>Click me</button>
+
+
+        // 컴포턴트를 다른 컴포넌트 안에 넣는 방법 배우기
+        // 주의해야 할 점은 위의 Title, Button 함수형태를 div태그 안에 추가하여 합쳐줄 때는 첫문자는 항상 대문자로! => 소문자라면 JSX가 just HTML의 태그라고 생각함( **중요** )
+
+        return (<div>
+                <Title />
+                <Button />
+            </div>)}
+    render()
+</script>
+</html>
+
+
